@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/selector_white"
+        android:gravity="center_vertical"
+        android:minHeight="50dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="88dp"
+            android:layout_height="wrap_content"
+            android:minHeight="50dp"
+            android:paddingLeft="5dp">
+
+            <TextView
+                android:id="@+id/tv_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@color/font_gray"
+                android:textSize="15sp"
+                tool:text="手机号手机号手机号手机号手机号" />
+
+            <ImageView
+                android:id="@+id/iv_label"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_centerInParent="true"
+                android:scaleType="fitXY" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:minHeight="50dp"
+            android:paddingRight="5dp">
+
+            <EditText
+                android:id="@+id/et_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@null"
+                android:inputType="phone"
+                android:saveEnabled="true"
+                android:singleLine="true"
+                android:textColor="@color/font_gray"
+                android:textColorHint="@color/font_gray_1"
+                android:textSize="15sp"
+                tool:hint="请输入11位数的手机号码" />
+
+            <TextView
+                android:id="@+id/tv_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/font_gray"
+                android:textSize="15sp"
+                tool:text="请输入11位数的手机号码请输入11位数的手机号码请输入11位数的手机号码请输入11位数的手机号码请输入11位数的手机号码" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/list_line" />
+
+</LinearLayout>
+
