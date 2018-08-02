@@ -9,14 +9,12 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jvho.warehouse.MainActivity;
 import com.jvho.warehouse.R;
 import com.jvho.warehouse.model._User;
 import com.jvho.warehouse.ui.widget.LoginInputView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.LogInListener;
@@ -35,8 +33,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //第一：默认初始化
-        Bmob.initialize(this, "");
 
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);

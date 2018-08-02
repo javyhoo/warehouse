@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.jvho.warehouse.R;
 import com.jvho.warehouse.model.Organization;
+import com.jvho.warehouse.ui.GoodsActivity;
 
 import java.util.List;
 
@@ -33,14 +34,14 @@ public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapte
 
     @Override
     public void onBindViewHolder(@NonNull OrganizationViewHolder holder, int position) {
-        Organization organization = list.get(position);
+        final Organization organization = list.get(position);
 
         holder.name.setText(organization.getName());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //todo 2018-7-30 17:17:39 跳转到折叠列表activity
+                GoodsActivity.gotoGoodsActivity(context, organization.getObjectId());
             }
         });
     }
