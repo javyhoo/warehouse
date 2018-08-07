@@ -7,11 +7,11 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jvho.warehouse.R;
 import com.jvho.warehouse.model._User;
 import com.jvho.warehouse.ui.widget.LoginInputView;
+import com.jvho.warehouse.utils.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -85,12 +85,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-//                SweetAlertDialog dialog = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.ERROR_TYPE);
-//                dialog.setTitleText("错误");
-//                dialog.setContentText(msg);
-//                dialog.show();
-
-                Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
+                new ToastUtil().showTipToast(LoginActivity.this, msg);
             }
         });
 

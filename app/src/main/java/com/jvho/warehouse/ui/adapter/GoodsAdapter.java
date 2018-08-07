@@ -75,7 +75,7 @@ public class GoodsAdapter extends BaseExpandableListAdapter {
         }
 
         seriesViewHolder.tvName.setText(seriesList.get(groupPosition).getName());
-        seriesViewHolder.tvAmount.setVisibility(View.GONE);
+//        seriesViewHolder.tvAmount.setVisibility(View.GONE);
 
         return convertView;
     }
@@ -89,14 +89,14 @@ public class GoodsAdapter extends BaseExpandableListAdapter {
             seriesViewHolder = new SeriesViewHolder();
             seriesViewHolder.tvName = convertView.findViewById(R.id.tv_goods_name);
             seriesViewHolder.tvAmount = convertView.findViewById(R.id.tv_goods_amount);
-            convertView.setBackgroundColor(context.getResources().getColor(R.color.gray_btn_bg_color));
+            convertView.setBackgroundColor(context.getResources().getColor(R.color.tab_normal_color));
             convertView.setTag(seriesViewHolder);
         } else {
             seriesViewHolder = (SeriesViewHolder) convertView.getTag();
         }
 
         seriesViewHolder.tvName.setText(warehouseList.get(groupPosition).get(childPosition).getName());
-        seriesViewHolder.tvAmount.setText("数量：" + warehouseList.get(groupPosition).get(childPosition).getAmount().toString());
+//        seriesViewHolder.tvAmount.setText("数量：" + warehouseList.get(groupPosition).get(childPosition).getAmount().toString());
 
         return convertView;
     }

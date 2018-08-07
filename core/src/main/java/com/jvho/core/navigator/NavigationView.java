@@ -56,7 +56,15 @@ public class NavigationView extends LinearLayout {
             }
         });
 
-        btnRight.setOnClickListener(listener);
+        btnRight.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (listener != null){
+                    listener.onClick(view);
+                }
+            }
+        });
+
     }
 
 
@@ -95,4 +103,8 @@ public class NavigationView extends LinearLayout {
     }
 
     private RightBtnClickListener listener;
+
+    public void setRightClickListener(RightBtnClickListener listener){
+        this.listener = listener;
+    }
 }

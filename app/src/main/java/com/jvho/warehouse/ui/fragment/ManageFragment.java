@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.jvho.core.base.BaseFragment;
 import com.jvho.warehouse.R;
+import com.jvho.warehouse.ui.WarehouseManageActivity;
 import com.jvho.warehouse.ui.widget.LabelView;
 
 import butterknife.BindView;
@@ -86,6 +87,7 @@ public class ManageFragment extends BaseFragment implements View.OnClickListener
                 // todo 2018-7-27 10:04:37 跳转到账号管理页面
                 break;
             case R.id.label_storage:
+                WarehouseManageActivity.gotoWarehouseManageActivity(getContext(), "仓库管理");
                 break;
             case R.id.label_department:
                 break;

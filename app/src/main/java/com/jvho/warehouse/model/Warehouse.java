@@ -4,14 +4,6 @@ import cn.bmob.v3.BmobObject;
 
 public class Warehouse extends BmobObject {
 
-    public String getSeries() {
-        return series;
-    }
-
-    public void setSeries(String series) {
-        this.series = series;
-    }
-
     public String getName() {
         return name;
     }
@@ -20,15 +12,14 @@ public class Warehouse extends BmobObject {
         this.name = name;
     }
 
-    public Integer getAmount() {
-        return amount;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setAmount(Integer amount) {
-        this.amount = amount;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
-    private String series;
+    private Integer status;
     private String name;
-    private Integer amount;
 }

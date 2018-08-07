@@ -10,10 +10,14 @@ import android.widget.LinearLayout;
 import com.jvho.core.R;
 import com.jvho.core.navigator.NavigationView;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 public abstract class BaseActivity extends AppCompatActivity {
 
     protected NavigationView navigation;
     private LinearLayout contentView;
+    private Unbinder unbinder;
 
     protected abstract int getLayoutResource();
 
@@ -32,6 +36,15 @@ public abstract class BaseActivity extends AppCompatActivity {
                 inflater.inflate(getLayoutResource(), contentView);
             }
         }
+
+        unbinder = ButterKnife.bind(this);
     }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        unbinder.unbind();
+    }
 }

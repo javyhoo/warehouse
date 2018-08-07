@@ -12,5 +12,14 @@ public class Organization extends BmobObject {
         this.name = name;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    private Integer status;
     private String name;
 }

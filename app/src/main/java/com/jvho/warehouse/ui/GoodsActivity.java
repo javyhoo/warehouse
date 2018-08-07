@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
 import com.jvho.core.base.BaseActivity;
 import com.jvho.warehouse.R;
+import com.jvho.warehouse.model.Goods;
 import com.jvho.warehouse.model.Series;
 import com.jvho.warehouse.model.Warehouse;
 import com.jvho.warehouse.ui.adapter.GoodsAdapter;
@@ -17,6 +19,7 @@ import com.jvho.warehouse.ui.adapter.GoodsAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bmob.v3.BmobBatch;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobQueryResult;
 import cn.bmob.v3.exception.BmobException;
@@ -27,17 +30,19 @@ import cn.bmob.v3.listener.SQLQueryListener;
 public class GoodsActivity extends BaseActivity {
 
     public static final String TAG_DEPARTMENTID = "tag_department_id";
+    public static final String TAG_DEPARTMENTTITLE = "tag_department_title";
 
     private SearchView searchView;
     private ExpandableListView listView;
     private GoodsAdapter adapter;
     private List<Series> seriesList = new ArrayList<>();
     private List<List<Warehouse>> warehouseList = new ArrayList<>();
-    private String organizationId;
+    private String organizationId, title;
 
-    public static void gotoGoodsActivity(Context context, String organizationId) {
+    public static void gotoGoodsActivity(Context context, String organizationId, String title) {
         Intent intent = new Intent(context, GoodsActivity.class);
         intent.putExtra(TAG_DEPARTMENTID, organizationId);
+        intent.putExtra(TAG_DEPARTMENTTITLE, title);
         context.startActivity(intent);
     }
 
@@ -51,16 +56,18 @@ public class GoodsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         organizationId = getIntent().getStringExtra(TAG_DEPARTMENTID);
+        title = getIntent().getStringExtra(TAG_DEPARTMENTTITLE);
 
-        organizationId = "kWm2555I";
+        if (TextUtils.isEmpty(organizationId))
+            organizationId = "kWm2555I";
 
         setNavigation();
-        getParentData();
+//        getParentData();
         initView();
     }
 
     private void setNavigation() {
-        navigation.setTitle("货物");
+        navigation.setTitle(title);
         navigation.hideRightButton();
     }
 
@@ -75,26 +82,61 @@ public class GoodsActivity extends BaseActivity {
     }
 
     private void getParentData() {
-        String bql = "select * from series where organization like '" + organizationId + "'";
-        BmobQuery<Series> query = new BmobQuery<>();
-        query.setSQL(bql);
-        query.doSQLQuery(new SQLQueryListener<Series>() {
-            @Override
-            public void done(BmobQueryResult<Series> bmobQueryResult, BmobException e) {
-                if (e == null) {
-                    seriesList.addAll(bmobQueryResult.getResults());
+//        String bql = "select * from goods where organization like '" + organizationId + "' and status like 1";
+//        BmobQuery<Series> query = new BmobQuery<>();
+//        query.setSQL(bql);
+//        query.doSQLQuery(new SQLQueryListener<Series>() {
+//            @Override
+//            public void done(BmobQueryResult<Series> bmobQueryResult, BmobException e) {
+//                if (e == null) {
+//                    seriesList.addAll(bmobQueryResult.getResults());
+//
+//                    getChildrenData();
+//                } else {
+//                    Toast.makeText(GoodsActivity.this, "机构表查询失败", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
 
-                    getChildrenData();
-                } else {
-                    Toast.makeText(GoodsActivity.this, "机构表查询失败", Toast.LENGTH_SHORT).show();
+        BmobQuery<Goods> query1 = new BmobQuery<Goods>();
+//        query1.addWhereEqualTo("organization", organizationId);
+        query1.getObject("BEfb1112", new QueryListener<Goods>() {
+            @Override
+            public void done(Goods goods, BmobException e) {
+                if (e==null){
+
                 }
             }
         });
+//
+//        BmobQuery<Goods> query2 = new BmobQuery<Goods>();
+//        query2.addWhereEqualTo("status", 1);
+//
+//        //最后组装完整的and条件
+//        List<BmobQuery<Goods>> andQuerys = new ArrayList<BmobQuery<Goods>>();
+//        andQuerys.add(query1);
+//        andQuerys.add(query2);
+//
+//        BmobQuery<Goods> query = new BmobQuery<Goods>();
+//        query.and(andQuerys);
+////        query.setLimit(20);
+//        query1.findObjects(new FindListener<Goods>() {
+//            @Override
+//            public void done(List<Goods> list, BmobException e) {
+//                if (e == null) {
+////                    seriesList.addAll(bmobQueryResult.getResults());
+//
+////                    getChildrenData();
+//                } else {
+//                    Toast.makeText(GoodsActivity.this, "机构表查询失败", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
     }
 
     private void getChildrenData() {
         for (int i = 0; i < seriesList.size(); i++) {
-            final String seriesId = seriesList.get(i).getObjectId();
+            String seriesId = seriesList.get(i).getObjectId();
 
             String bql = "select * from warehouse where series like '" + seriesId + "'";
             BmobQuery<Warehouse> query = new BmobQuery<>();
@@ -113,4 +155,5 @@ public class GoodsActivity extends BaseActivity {
             });
         }
     }
+
 }

@@ -11,14 +11,14 @@ public class Series extends BmobObject {
         this.name = name;
     }
 
-    public String getOrganization() {
-        return organization;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setOrganization(String organization) {
-        this.organization = organization;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
+    private Integer status;
     private String name;
-    private String organization;
 }

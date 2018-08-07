@@ -41,7 +41,7 @@ public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GoodsActivity.gotoGoodsActivity(context, organization.getObjectId());
+                GoodsActivity.gotoGoodsActivity(context, organization.getObjectId(), organization.getName());
             }
         });
     }

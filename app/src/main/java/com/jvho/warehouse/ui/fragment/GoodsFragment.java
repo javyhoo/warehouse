@@ -26,6 +26,7 @@ import butterknife.Unbinder;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobQueryResult;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SQLQueryListener;
 
 public class GoodsFragment extends BaseFragment {
@@ -76,14 +77,28 @@ public class GoodsFragment extends BaseFragment {
     }
 
     private void queryOrganization() {
-        String bql = "select * from organization";
+//        String bql = "select * from organization where status = 1";
+//        BmobQuery<Organization> query = new BmobQuery<>();
+//        query.setSQL(bql);
+//        query.doSQLQuery(new SQLQueryListener<Organization>() {
+//            @Override
+//            public void done(BmobQueryResult<Organization> bmobQueryResult, BmobException e) {
+//                if (e == null) {
+//                    adapter.refresh(bmobQueryResult.getResults());
+//                } else {
+//                    Toast.makeText(getContext(), "机构表查询失败", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+
         BmobQuery<Organization> query = new BmobQuery<>();
-        query.setSQL(bql);
-        query.doSQLQuery(new SQLQueryListener<Organization>() {
+//        query.addWhereEqualTo("status", 1);
+        query.order("-createdAt");
+        query.findObjects(new FindListener<Organization>() {
             @Override
-            public void done(BmobQueryResult<Organization> bmobQueryResult, BmobException e) {
+            public void done(List<Organization> list, BmobException e) {
                 if (e == null) {
-                    adapter.refresh(bmobQueryResult.getResults());
+                    adapter.refresh(list);
                 } else {
                     Toast.makeText(getContext(), "机构表查询失败", Toast.LENGTH_SHORT).show();
                 }
