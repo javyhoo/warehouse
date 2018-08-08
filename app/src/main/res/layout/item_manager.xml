@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selector_white"
+    android:orientation="horizontal"
+    android:paddingBottom="10dp"
+    android:paddingLeft="36dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp">
+
+    <TextView
+        android:id="@+id/tv_manage_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="旺角仓库"
+        android:textColor="@color/font_gray"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/tv_manage_remove"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="20dp"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:gravity="end"
+        android:maxLines="1"
+        android:text="移除"
+        android:textColor="@color/red"
+        android:textSize="15sp" />
+
+</LinearLayout>
