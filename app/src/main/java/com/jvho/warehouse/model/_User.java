@@ -44,9 +44,27 @@ public class _User extends BmobObject {
         this.mobilePhoneNumberVerified = mobilePhoneNumberVerified;
     }
 
+    public String getWarehouse() {
+        return warehouse;
+    }
+
+    public void setWarehouse(String warehouse) {
+        this.warehouse = warehouse;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     private String username;
     private String password;
     private Boolean admin;
     private Boolean mobilePhoneNumberVerified;
     private String mobilePhoneNumber;
+    private String warehouse;
+    private Integer status;
 }

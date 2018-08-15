@@ -24,10 +24,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.datatype.BmobQueryResult;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
-import cn.bmob.v3.listener.SQLQueryListener;
 
 public class GoodsFragment extends BaseFragment {
 
@@ -50,7 +48,7 @@ public class GoodsFragment extends BaseFragment {
             unbinder = ButterKnife.bind(this, rootview);
 
             orgSearch.setQueryHint("请输入您要搜索的机构名称");
-            queryOrganization();
+//            queryOrganization();
             setListView();
         }
 
@@ -71,7 +69,7 @@ public class GoodsFragment extends BaseFragment {
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         orgListView.setLayoutManager(manager);
         //添加Android自带的分割线
-        orgListView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
+        orgListView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
         orgListView.setAdapter(adapter);
     }

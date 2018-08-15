@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 
 import com.jvho.core.base.BaseFragment;
 import com.jvho.warehouse.R;
+import com.jvho.warehouse.ui.OrgManageActivity;
+import com.jvho.warehouse.ui.UserManageActivity;
 import com.jvho.warehouse.ui.WarehouseManageActivity;
 import com.jvho.warehouse.ui.widget.LabelView;
 
@@ -84,12 +86,13 @@ public class ManageFragment extends BaseFragment implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.label_account:
-                // todo 2018-7-27 10:04:37 跳转到账号管理页面
+                UserManageActivity.gotoUserManageActivity(getContext(), "账户管理");
                 break;
             case R.id.label_storage:
                 WarehouseManageActivity.gotoWarehouseManageActivity(getContext(), "仓库管理");
                 break;
             case R.id.label_department:
+                OrgManageActivity.gotoOrgManageActivity(getContext(), "机构管理");
                 break;
             case R.id.label_goods:
                 break;

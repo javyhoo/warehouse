@@ -85,7 +85,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                new ToastUtil().showTipToast(LoginActivity.this, msg);
+                new ToastUtil().showTipToast(LoginActivity.this, msg, null);
             }
         });
 

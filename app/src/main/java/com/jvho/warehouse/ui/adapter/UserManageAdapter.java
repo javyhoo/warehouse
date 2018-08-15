@@ -12,20 +12,20 @@ import com.jvho.core.base.SweetAlertDialog;
 import com.jvho.warehouse.R;
 import com.jvho.warehouse.base.ListBaseAdapter;
 import com.jvho.warehouse.base.SuperViewHolder;
-import com.jvho.warehouse.model.Warehouse;
+import com.jvho.warehouse.model._User;
 import com.jvho.warehouse.utils.ToastUtil;
 
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.UpdateListener;
 
 /**
- * Created by JV on 2018/8/7.
+ * Created by JV on 2018/8/15.
  */
-public class WarehouseAdapter extends ListBaseAdapter<Warehouse> {
+public class UserManageAdapter extends ListBaseAdapter<_User> {
 
     private Context context;
 
-    public WarehouseAdapter(Context context) {
+    public UserManageAdapter(Context context) {
         super(context);
         this.context = context;
     }
@@ -37,10 +37,13 @@ public class WarehouseAdapter extends ListBaseAdapter<Warehouse> {
 
     @Override
     public void onBindItemHolder(SuperViewHolder holder, final int position) {
-        final Warehouse warehouse = mDataList.get(position);
+        final _User user = mDataList.get(position);
+
+        String warehouse = "(" + user.getWarehouse() + ")";
+        String admin = user.getAdmin() ? "(管理员)" : "(一般使用者)";
 
         TextView name = holder.getView(R.id.tv_manage_name);
-        name.setText(warehouse.getName());
+        name.setText(user.getUsername() + admin + warehouse);
 
         TextView btnRemove = holder.getView(R.id.tv_manage_remove);
         btnRemove.setOnClickListener(new View.OnClickListener() {
@@ -48,11 +51,11 @@ public class WarehouseAdapter extends ListBaseAdapter<Warehouse> {
             public void onClick(View view) {
                 new SweetAlertDialog.Builder(context)
                         .setType(SweetAlertDialog.NORMAL_TYPE)
-                        .setTitle("确定删除" + warehouse.getName() + "？")
+                        .setTitle("确定删除" + user.getUsername() + "？")
                         .setPositiveButton("确定", new SweetAlertDialog.OnDialogClickListener() {
                             @Override
                             public void onClick(Dialog dialog, int which, @Nullable String inputMsg) {
-                                warehouse.delete(new UpdateListener() {
+                                user.delete(new UpdateListener() {
                                     @Override
                                     public void done(BmobException e) {
                                         if (null == e) {
@@ -64,7 +67,8 @@ public class WarehouseAdapter extends ListBaseAdapter<Warehouse> {
                                     }
                                 });
                             }
-                        }).show();
+                        })
+                        .show();
             }
         });
     }
@@ -73,4 +77,5 @@ public class WarehouseAdapter extends ListBaseAdapter<Warehouse> {
     public void onViewRecycled(@NonNull SuperViewHolder holder) {
         super.onViewRecycled(holder);
     }
+
 }

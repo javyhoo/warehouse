@@ -21,8 +21,8 @@ import com.jvho.core.base.BaseActivity;
 import com.jvho.core.base.SweetAlertDialog;
 import com.jvho.core.navigator.NavigationView;
 import com.jvho.warehouse.R;
-import com.jvho.warehouse.model.Warehouse;
-import com.jvho.warehouse.ui.adapter.WarehouseAdapter;
+import com.jvho.warehouse.model.Organization;
+import com.jvho.warehouse.ui.adapter.OrgManageAdapter;
 import com.jvho.warehouse.utils.ToastUtil;
 
 import java.util.List;
@@ -34,22 +34,24 @@ import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
 
 /**
- * Created by JV on 2018/8/7.
+ * Created by JV on 2018/8/15.
  */
-public class WarehouseManageActivity extends BaseActivity {
+public class OrgManageActivity extends BaseActivity {
 
-    public static final String TAG_MANAGEWAREHOUSETITLE = "tag_manage_warehouse_title";
-
-    private String title;
-    private WarehouseAdapter adapter;
-    private LRecyclerViewAdapter lAdapter;
+    public static final String TAG_MANAGE_TITLE = "tag_manage_title";
 
     @BindView(R.id.list_manage)
     LRecyclerView listView;
+//    @BindView(R.id.empty_view)
+//    EmptyView emptyView;
 
-    public static void gotoWarehouseManageActivity(Context context, String title) {
-        Intent intent = new Intent(context, WarehouseManageActivity.class);
-        intent.putExtra(TAG_MANAGEWAREHOUSETITLE, title);
+    private String title;
+    private OrgManageAdapter adapter;
+    private LRecyclerViewAdapter lAdapter;
+
+    public static void gotoOrgManageActivity(Context context, String title) {
+        Intent intent = new Intent(context, OrgManageActivity.class);
+        intent.putExtra(TAG_MANAGE_TITLE, title);
         context.startActivity(intent);
     }
 
@@ -62,10 +64,17 @@ public class WarehouseManageActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        title = getIntent().getStringExtra(TAG_MANAGEWAREHOUSETITLE);
+        title = getIntent().getStringExtra(TAG_MANAGE_TITLE);
 
         setNavigation();
         setListView();
+
+//        emptyView.setRefreshListener(new EmptyView.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                listView.refresh();
+//            }
+//        });
     }
 
     private void setNavigation() {
@@ -73,52 +82,52 @@ public class WarehouseManageActivity extends BaseActivity {
         navigation.setRightButton(R.drawable.actionbar_add, new NavigationView.RightBtnClickListener() {
             @Override
             public void onClick(View view) {
-                new SweetAlertDialog.Builder(WarehouseManageActivity.this)
+                new SweetAlertDialog.Builder(OrgManageActivity.this)
                         .setType(SweetAlertDialog.INPUT_TYPE)
-                        .setTitle("新增仓库")
+                        .setTitle("新增机构")
                         .setCancelable(true)
                         .setPositiveButton("新增", new SweetAlertDialog.OnDialogClickListener() {
                             @Override
                             public void onClick(Dialog dialog, int which, @Nullable String inputMsg) {
                                 if (!TextUtils.isEmpty(inputMsg)) {
-                                    saveWarehouse(inputMsg);
+                                    saveOrganization(inputMsg);
 
                                     // 隐藏键盘
                                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                                     imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                                 }
                             }
-                        }).show();
+                        })
+                        .show();
             }
         });
     }
 
-    private void saveWarehouse(final String name) {
-        Warehouse warehouse = new Warehouse();
-        warehouse.setName(name);
-        warehouse.setStatus(1);
-        warehouse.save(new SaveListener<String>() {
+    private void saveOrganization(final String name) {
+        Organization organization = new Organization();
+        organization.setName(name);
+        organization.setStatus(1);
+        organization.save(new SaveListener<String>() {
             @Override
             public void done(String objectId, BmobException e) {
                 if (e == null) {
-                    Toast.makeText(WarehouseManageActivity.this, "新增成功", Toast.LENGTH_SHORT).show();
-
+                    Toast.makeText(OrgManageActivity.this, "新增成功", Toast.LENGTH_SHORT).show();
                     queryData();
                 } else if ((e.toString()).contains("has duplicate value")) {
-                    new ToastUtil().showTipToast(WarehouseManageActivity.this, name + "已存在，请检查！", null);
+                    new ToastUtil().showTipToast(OrgManageActivity.this, name + "已存在，请检查！", null);
                 } else {
-                    saveWarehouse(name);
+                    saveOrganization(name);
                 }
             }
         });
     }
 
     private void queryData() {
-        final BmobQuery<Warehouse> query = new BmobQuery<>();
+        final BmobQuery<Organization> query = new BmobQuery<>();
         query.addWhereEqualTo("status", 1);
-        query.findObjects(new FindListener<Warehouse>() {
+        query.findObjects(new FindListener<Organization>() {
             @Override
-            public void done(List<Warehouse> list, BmobException e) {
+            public void done(List<Organization> list, BmobException e) {
                 listView.refreshComplete(100);
 
                 if (null == e || list.size() > 0) {
@@ -134,7 +143,7 @@ public class WarehouseManageActivity extends BaseActivity {
     }
 
     private void setListView() {
-        adapter = new WarehouseAdapter(this);
+        adapter = new OrgManageAdapter(this);
         queryData();
 
         lAdapter = new LRecyclerViewAdapter(adapter);
