@@ -74,6 +74,7 @@ public class NavigationView extends LinearLayout {
 
     public void setRightButton(int resource, RightBtnClickListener listener) {
         this.listener = listener;
+        btnRight.setVisibility(View.VISIBLE);
         rightTxt.setVisibility(View.GONE);
         rightImg.setVisibility(View.VISIBLE);
         rightImg.setImageResource(resource);
@@ -81,13 +82,18 @@ public class NavigationView extends LinearLayout {
 
     public void setRightButton(String text, RightBtnClickListener listener) {
         this.listener = listener;
+        btnRight.setVisibility(View.VISIBLE);
         rightTxt.setVisibility(View.VISIBLE);
         rightImg.setVisibility(View.GONE);
         rightTxt.setText(text);
     }
 
     public void hideRightButton() {
-        btnRight.setVisibility(View.INVISIBLE);
+        btnRight.setVisibility(View.GONE);
+    }
+
+    public void hideLeftButton() {
+        btnLeft.setVisibility(View.GONE);
     }
 
     public void hideNavigator() {

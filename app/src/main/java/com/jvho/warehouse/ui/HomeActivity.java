@@ -5,7 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.PopupMenu;
 import android.util.Log;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.FrameLayout;
@@ -15,6 +19,7 @@ import com.chaychan.library.BottomBarItem;
 import com.chaychan.library.BottomBarLayout;
 import com.jvho.core.base.BaseActivity;
 import com.jvho.core.base.BaseFragment;
+import com.jvho.core.navigator.NavigationView;
 import com.jvho.warehouse.R;
 import com.jvho.warehouse.ui.fragment.GoodsFragment;
 import com.jvho.warehouse.ui.fragment.ManageFragment;
@@ -23,7 +28,7 @@ import com.jvho.warehouse.ui.fragment.TabFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeActivity extends BaseActivity {
+public class HomeActivity extends BaseActivity implements PopupMenu.OnMenuItemClickListener {
     private List<BaseFragment> mFragmentList = new ArrayList<>();
     private FrameLayout mFlContent;
     private BottomBarLayout mBottomBarLayout;
@@ -62,9 +67,6 @@ public class HomeActivity extends BaseActivity {
     private void initData() {
 
         GoodsFragment goodsFragment = new GoodsFragment();
-//        Bundle bundle1 = new Bundle();
-//        bundle1.putString(TabFragment.CONTENT, "货物");
-//        homeFragment.setArguments(bundle1);
         mFragmentList.add(goodsFragment);
 
         TabFragment videoFragment = new TabFragment();
@@ -75,9 +77,6 @@ public class HomeActivity extends BaseActivity {
 
 //        if (isadmin) {
         ManageFragment manageFragment = new ManageFragment();
-//        Bundle bundle3 = new Bundle();
-//        bundle3.putString(ManageFragment.CONTENT, "管理");
-//        microFragment.setArguments(bundle3);
         mFragmentList.add(manageFragment);
 //        }
 
@@ -159,19 +158,32 @@ public class HomeActivity extends BaseActivity {
         switch (currentPosition) {
             case 0:
                 title = "货物";
+                navigation.hideRightButton();
                 break;
             case 1:
                 title = "记录";
+                navigation.setRightButton(R.drawable.actionbar_add, new NavigationView.RightBtnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        PopupMenu popup = new PopupMenu(HomeActivity.this, view);
+                        MenuInflater inflater = popup.getMenuInflater();
+                        inflater.inflate(R.menu.store, popup.getMenu());
+                        popup.setOnMenuItemClickListener(HomeActivity.this);
+                        popup.show();
+                    }
+                });
                 break;
             case 2:
                 title = "管理";
+                navigation.hideRightButton();
                 break;
             case 3:
                 title = "我";
+                navigation.hideRightButton();
                 break;
         }
         navigation.setTitle(title);
-        navigation.hideRightButton();
+        navigation.hideLeftButton();
     }
 
     /**
@@ -182,5 +194,20 @@ public class HomeActivity extends BaseActivity {
         if (animation != null) {
             animation.cancel();
         }
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.store_incoming:
+                StoreRecordActivity.gotoStoreRecordActivity(this, "入货");
+                break;
+            case R.id.store_outgoing:
+                StoreRecordActivity.gotoStoreRecordActivity(this, "出货");
+                break;
+            default:
+                break;
+        }
+        return false;
     }
 }
