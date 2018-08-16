@@ -27,6 +27,7 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 /**
  * Created by JV on 2018/8/15.
@@ -165,14 +166,29 @@ public class UserAddActivity extends BaseActivity {
         user.setStatus(1);
         user.setAdmin(isAdmin);
         user.setWarehouse(warehouse);
-        user.save(new SaveListener<String>() {
+        user.signUp(new SaveListener<_User>() {
             @Override
-            public void done(String s, BmobException e) {
+            public void done(_User user, BmobException e) {
                 if (e == null) {
                     new ToastUtil().showTipToast(UserAddActivity.this, "新增成功", new ToastUtil.OnTipsListener() {
                         @Override
                         public void onClick() {
                             finish();
+                        }
+                    });
+                } else if ((e.toString()).contains("already taken")) {
+                    user.setStatus(1);
+                    user.update(new UpdateListener() {
+                        @Override
+                        public void done(BmobException e) {
+                            if (e == null) {
+                                new ToastUtil().showTipToast(UserAddActivity.this, "新增成功", new ToastUtil.OnTipsListener() {
+                                    @Override
+                                    public void onClick() {
+                                        finish();
+                                    }
+                                });
+                            }
                         }
                     });
                 } else if ((e.toString()).contains("has duplicate value")) {

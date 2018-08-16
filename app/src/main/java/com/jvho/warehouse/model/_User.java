@@ -1,32 +1,8 @@
 package com.jvho.warehouse.model;
 
-import cn.bmob.v3.BmobObject;
+import cn.bmob.v3.BmobUser;
 
-public class _User extends BmobObject {
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getMobilePhoneNumber() {
-        return mobilePhoneNumber;
-    }
-
-    public void setMobilePhoneNumber(String mobilePhoneNumber) {
-        this.mobilePhoneNumber = mobilePhoneNumber;
-    }
+public class _User extends BmobUser {
 
     public Boolean getAdmin() {
         return admin;
@@ -34,14 +10,6 @@ public class _User extends BmobObject {
 
     public void setAdmin(Boolean admin) {
         this.admin = admin;
-    }
-
-    public Boolean getMobilePhoneNumberVerified() {
-        return mobilePhoneNumberVerified;
-    }
-
-    public void setMobilePhoneNumberVerified(Boolean mobilePhoneNumberVerified) {
-        this.mobilePhoneNumberVerified = mobilePhoneNumberVerified;
     }
 
     public String getWarehouse() {
@@ -60,11 +28,7 @@ public class _User extends BmobObject {
         this.status = status;
     }
 
-    private String username;
-    private String password;
     private Boolean admin;
-    private Boolean mobilePhoneNumberVerified;
-    private String mobilePhoneNumber;
     private String warehouse;
     private Integer status;
 }

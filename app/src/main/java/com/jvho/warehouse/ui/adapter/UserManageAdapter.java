@@ -15,6 +15,7 @@ import com.jvho.warehouse.base.SuperViewHolder;
 import com.jvho.warehouse.model._User;
 import com.jvho.warehouse.utils.ToastUtil;
 
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.UpdateListener;
 
@@ -46,6 +47,11 @@ public class UserManageAdapter extends ListBaseAdapter<_User> {
         name.setText(user.getUsername() + admin + warehouse);
 
         TextView btnRemove = holder.getView(R.id.tv_manage_remove);
+//        if (user.getAdmin()) {
+//            btnRemove.setVisibility(View.VISIBLE);
+//        } else {
+//            btnRemove.setVisibility(View.GONE);
+//        }
         btnRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,10 +61,23 @@ public class UserManageAdapter extends ListBaseAdapter<_User> {
                         .setPositiveButton("确定", new SweetAlertDialog.OnDialogClickListener() {
                             @Override
                             public void onClick(Dialog dialog, int which, @Nullable String inputMsg) {
-                                user.delete(new UpdateListener() {
+//                                user.delete(new UpdateListener() {
+//                                    @Override
+//                                    public void done(BmobException e) {
+//                                        if (null == e) {
+//                                            Toast.makeText(context, "删除成功!", Toast.LENGTH_SHORT).show();
+//                                            remove(position);
+//                                        } else {
+//                                            new ToastUtil().showTipToast(context, "删除失败，" + e.toString(), null);
+//                                        }
+//                                    }
+//                                });
+
+                                user.setStatus(0);
+                                user.update(new UpdateListener() {
                                     @Override
                                     public void done(BmobException e) {
-                                        if (null == e) {
+                                        if (null == e){
                                             Toast.makeText(context, "删除成功!", Toast.LENGTH_SHORT).show();
                                             remove(position);
                                         } else {
