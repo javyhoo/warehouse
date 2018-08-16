@@ -125,6 +125,7 @@ public class OrgManageActivity extends BaseActivity {
     private void queryData() {
         final BmobQuery<Organization> query = new BmobQuery<>();
         query.addWhereEqualTo("status", 1);
+        query.order("name");
         query.findObjects(new FindListener<Organization>() {
             @Override
             public void done(List<Organization> list, BmobException e) {

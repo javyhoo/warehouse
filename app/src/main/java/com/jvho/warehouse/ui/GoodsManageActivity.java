@@ -1,11 +1,15 @@
 package com.jvho.warehouse.ui;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import com.github.jdsjlzx.ItemDecoration.DividerDecoration;
 import com.github.jdsjlzx.interfaces.OnNetWorkErrorListener;
@@ -14,10 +18,12 @@ import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.jvho.core.base.BaseActivity;
+import com.jvho.core.base.SweetAlertDialog;
 import com.jvho.core.navigator.NavigationView;
 import com.jvho.warehouse.R;
-import com.jvho.warehouse.model._User;
-import com.jvho.warehouse.ui.adapter.UserManageAdapter;
+import com.jvho.warehouse.model.Goods;
+import com.jvho.warehouse.ui.adapter.GoodsManageAdapter;
+import com.jvho.warehouse.utils.ToastUtil;
 
 import java.util.List;
 
@@ -25,26 +31,27 @@ import butterknife.BindView;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.SaveListener;
 
 /**
  * Created by JV on 2018/8/15.
  */
-public class UserManageActivity extends BaseActivity {
+public class GoodsManageActivity extends BaseActivity {
 
-    public static final String TAG_MANAGE_TITLE = "tag_manage_title";
+    private static final String TAG_ORG_ID = "tag_org_id";
 
     @BindView(R.id.list_manage)
     LRecyclerView listView;
 //    @BindView(R.id.empty_view)
 //    EmptyView emptyView;
 
-    private String title;
-    private UserManageAdapter adapter;
+    private GoodsManageAdapter adapter;
     private LRecyclerViewAdapter lAdapter;
+    private String orgId;
 
-    public static void gotoUserManageActivity(Context context, String title) {
-        Intent intent = new Intent(context, UserManageActivity.class);
-        intent.putExtra(TAG_MANAGE_TITLE, title);
+    public static void gotoGoodsManageActivity(Context context, String orgId) {
+        Intent intent = new Intent(context, GoodsManageActivity.class);
+        intent.putExtra(TAG_ORG_ID, orgId);
         context.startActivity(intent);
     }
 
@@ -57,10 +64,11 @@ public class UserManageActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        title = getIntent().getStringExtra(TAG_MANAGE_TITLE);
+        orgId = getIntent().getStringExtra(TAG_ORG_ID);
 
         setNavigation();
         setListView();
+
 //        emptyView.setRefreshListener(new EmptyView.OnRefreshListener() {
 //            @Override
 //            public void onRefresh() {
@@ -69,30 +77,60 @@ public class UserManageActivity extends BaseActivity {
 //        });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        listView.refresh();
-    }
-
     private void setNavigation() {
-        navigation.setTitle(title);
+        navigation.setTitle("货物管理");
         navigation.setRightButton(R.drawable.actionbar_add, new NavigationView.RightBtnClickListener() {
             @Override
             public void onClick(View view) {
-                UserAddActivity.gotoUserAddActivity(UserManageActivity.this, "新增账户");
+                new SweetAlertDialog.Builder(GoodsManageActivity.this)
+                        .setType(SweetAlertDialog.INPUT_TYPE)
+                        .setTitle("新增货物")
+                        .setCancelable(true)
+                        .setPositiveButton("新增", new SweetAlertDialog.OnDialogClickListener() {
+                            @Override
+                            public void onClick(Dialog dialog, int which, @Nullable String inputMsg) {
+                                if (!TextUtils.isEmpty(inputMsg)) {
+                                    saveGoods(inputMsg);
+
+                                    // 隐藏键盘
+                                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                                }
+                            }
+                        })
+                        .show();
+            }
+        });
+    }
+
+    private void saveGoods(final String name) {
+        Goods goods = new Goods();
+        goods.setName(name);
+        goods.setOrganization(orgId);
+        goods.setStatus(1);
+        goods.setAmount(0);
+        goods.save(new SaveListener<String>() {
+            @Override
+            public void done(String objectId, BmobException e) {
+                if (e == null) {
+                    Toast.makeText(GoodsManageActivity.this, "新增成功", Toast.LENGTH_SHORT).show();
+                    queryData();
+                } else if ((e.toString()).contains("has duplicate value")) {
+                    new ToastUtil().showTipToast(GoodsManageActivity.this, name + "已存在，请检查！", null);
+                } else {
+                    saveGoods(name);
+                }
             }
         });
     }
 
     private void queryData() {
-        final BmobQuery<_User> query = new BmobQuery<>();
+        final BmobQuery<Goods> query = new BmobQuery<>();
         query.addWhereEqualTo("status", 1);
         query.order("name");
-        query.findObjects(new FindListener<_User>() {
+        query.findObjects(new FindListener<Goods>() {
             @Override
-            public void done(List<_User> list, BmobException e) {
+            public void done(List<Goods> list, BmobException e) {
                 listView.refreshComplete(100);
 
                 if (null == e || list.size() > 0) {
@@ -108,7 +146,7 @@ public class UserManageActivity extends BaseActivity {
     }
 
     private void setListView() {
-        adapter = new UserManageAdapter(this);
+        adapter = new GoodsManageAdapter(this);
         queryData();
 
         lAdapter = new LRecyclerViewAdapter(adapter);

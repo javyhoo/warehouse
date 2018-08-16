@@ -114,7 +114,7 @@ public class StoreRecordActivity extends BaseActivity {
     private void setOrgSpinner() {
         BmobQuery<Organization> query = new BmobQuery<>();
         query.addWhereEqualTo("status", 1);
-        query.order("-updatedAt");
+        query.order("name");
         query.findObjects(new FindListener<Organization>() {
             @Override
             public void done(List<Organization> list, BmobException e) {

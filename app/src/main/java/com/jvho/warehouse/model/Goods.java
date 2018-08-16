@@ -7,12 +7,12 @@ import cn.bmob.v3.BmobObject;
  */
 public class Goods extends BmobObject {
 
-    public String getWarehouse() {
-        return warehouse;
+    public String getName() {
+        return name;
     }
 
-    public void setWarehouse(String warehouse) {
-        this.warehouse = warehouse;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getOrganization() {
@@ -21,14 +21,6 @@ public class Goods extends BmobObject {
 
     public void setOrganization(String organization) {
         this.organization = organization;
-    }
-
-    public String getSeries() {
-        return series;
-    }
-
-    public void setSeries(String series) {
-        this.series = series;
     }
 
     public Integer getStatus() {
@@ -47,9 +39,9 @@ public class Goods extends BmobObject {
         this.amount = amount;
     }
 
-    private String warehouse;
-    private String organization;
-    private String series;
+    private String name;
+    private String organization;    //机构ID
     private Integer status;
-    private Integer amount;
+    private Integer amount;     //数量
+
 }

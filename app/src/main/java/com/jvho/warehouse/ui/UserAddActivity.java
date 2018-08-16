@@ -85,6 +85,7 @@ public class UserAddActivity extends BaseActivity {
     private void queryWarehouse() {
         BmobQuery<Warehouse> query = new BmobQuery<>();
         query.addWhereEqualTo("status", 1);
+        query.order("name");
         query.findObjects(new FindListener<Warehouse>() {
             @Override
             public void done(List<Warehouse> list, BmobException e) {

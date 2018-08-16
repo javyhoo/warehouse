@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.jvho.core.base.BaseFragment;
 import com.jvho.warehouse.R;
 import com.jvho.warehouse.ui.OrgManageActivity;
+import com.jvho.warehouse.ui.OrganizationActivity;
 import com.jvho.warehouse.ui.UserManageActivity;
 import com.jvho.warehouse.ui.WarehouseManageActivity;
 import com.jvho.warehouse.ui.widget.LabelView;
@@ -95,6 +96,7 @@ public class ManageFragment extends BaseFragment implements View.OnClickListener
                 OrgManageActivity.gotoOrgManageActivity(getContext(), "机构管理");
                 break;
             case R.id.label_goods:
+                OrganizationActivity.gotoOrganizationActivity(getContext(), "货物管理");
                 break;
         }
     }
