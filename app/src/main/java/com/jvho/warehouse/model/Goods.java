@@ -31,17 +31,8 @@ public class Goods extends BmobObject {
         this.status = status;
     }
 
-    public Integer getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Integer amount) {
-        this.amount = amount;
-    }
-
     private String name;
     private String organization;    //机构ID
     private Integer status;
-    private Integer amount;     //数量
 
 }

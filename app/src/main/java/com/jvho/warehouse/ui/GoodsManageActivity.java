@@ -108,7 +108,6 @@ public class GoodsManageActivity extends BaseActivity {
         goods.setName(name);
         goods.setOrganization(orgId);
         goods.setStatus(1);
-        goods.setAmount(0);
         goods.save(new SaveListener<String>() {
             @Override
             public void done(String objectId, BmobException e) {

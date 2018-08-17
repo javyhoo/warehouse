@@ -23,6 +23,7 @@ import com.jvho.core.navigator.NavigationView;
 import com.jvho.warehouse.R;
 import com.jvho.warehouse.ui.fragment.GoodsFragment;
 import com.jvho.warehouse.ui.fragment.ManageFragment;
+import com.jvho.warehouse.ui.fragment.RecordsFragment;
 import com.jvho.warehouse.ui.fragment.TabFragment;
 
 import java.util.ArrayList;
@@ -69,11 +70,11 @@ public class HomeActivity extends BaseActivity implements PopupMenu.OnMenuItemCl
         GoodsFragment goodsFragment = new GoodsFragment();
         mFragmentList.add(goodsFragment);
 
-        TabFragment videoFragment = new TabFragment();
-        Bundle bundle2 = new Bundle();
-        bundle2.putString(TabFragment.CONTENT, "记录");
-        videoFragment.setArguments(bundle2);
-        mFragmentList.add(videoFragment);
+        RecordsFragment recordsFragment = new RecordsFragment();
+//        Bundle bundle2 = new Bundle();
+//        bundle2.putString(TabFragment.CONTENT, "记录");
+//        videoFragment.setArguments(bundle2);
+        mFragmentList.add(recordsFragment);
 
 //        if (isadmin) {
         ManageFragment manageFragment = new ManageFragment();
