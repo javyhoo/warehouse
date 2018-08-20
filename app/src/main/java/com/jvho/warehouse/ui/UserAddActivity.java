@@ -38,8 +38,7 @@ public class UserAddActivity extends BaseActivity {
 
     private static final String[] admin = {"管理员", "一般使用者"};
     private List<String> arrWarehouse = new ArrayList<>();
-    private List<Warehouse> listWareouse = new ArrayList<>();
-    private String title, warehouseId;
+    private String title, warehouse;
     private Boolean isAdmin;
 
     @BindView(R.id.add_user_name)
@@ -91,10 +90,8 @@ public class UserAddActivity extends BaseActivity {
             @Override
             public void done(List<Warehouse> list, BmobException e) {
                 arrWarehouse.clear();
-                listWareouse.clear();
 
                 arrWarehouse.add("无");
-                listWareouse.addAll(list);
                 if (null == e) {
                     for (Warehouse w : list) {
                         arrWarehouse.add(w.getName());
@@ -134,9 +131,9 @@ public class UserAddActivity extends BaseActivity {
 
         public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
             if (arg2 < 1) {
-                warehouseId = "";
+                warehouse = "";
             } else {
-                warehouseId = (listWareouse.get(arg2 - 1)).getObjectId();
+                warehouse = arrWarehouse.get(arg2 - 1);
             }
 
         }
@@ -174,7 +171,7 @@ public class UserAddActivity extends BaseActivity {
         user.setPassword(password);
         user.setStatus(1);
         user.setAdmin(isAdmin);
-        user.setWarehouse(warehouseId);
+        user.setWarehouse(warehouse);
         user.signUp(new SaveListener<_User>() {
             @Override
             public void done(_User user, BmobException e) {

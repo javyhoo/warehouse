@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_bg"
+    android:padding="5dp">
+
+    <RelativeLayout
+        android:id="@+id/rl_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_white"
+        android:padding="5dp">
+
+        <ImageView
+            android:id="@+id/iv_user_icon"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_cang_launcher_web" />
+
+        <TextView
+            android:id="@+id/tv_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/iv_user_icon"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            tools:text="admin" />
+
+        <TextView
+            android:id="@+id/tv_user_admin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_user_name"
+            android:layout_below="@+id/tv_user_name"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/font_gray"
+            android:textSize="15sp"
+            tools:text="管理员" />
+
+        <TextView
+            android:id="@+id/tv_warehouse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_user_name"
+            android:layout_below="@+id/tv_user_admin"
+            android:layout_marginTop="5dp"
+            android:text="所属仓库："
+            android:textColor="@color/font_gray"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_user_warehouse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_user_admin"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/tv_warehouse"
+            android:textColor="@color/font_gray"
+            android:textSize="14sp"
+            tools:text="旺角仓库" />
+
+    </RelativeLayout>
+
+    <com.jvho.warehouse.ui.widget.LabelView
+        android:id="@+id/lv_feedback"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_info"
+        android:layout_marginTop="5dp" />
+
+    <com.jvho.warehouse.ui.widget.LabelView
+        android:id="@+id/lv_about"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lv_feedback"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:id="@+id/tv_logout_btn"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/bg_red_rd"
+        android:gravity="center"
+        android:text="退出登录"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+
+</RelativeLayout>

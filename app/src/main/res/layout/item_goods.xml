@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/selector_white"
     android:orientation="horizontal"
     android:paddingBottom="10dp"
@@ -17,7 +18,7 @@
         android:layout_weight="1"
         android:ellipsize="end"
         android:maxLines="1"
-        android:text="iPhoneX"
+        tools:text="iPhoneX"
         android:textColor="@color/font_gray"
         android:textSize="15sp" />
 
@@ -29,7 +30,7 @@
         android:layout_marginLeft="10dp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:text="数量：2100"
+        tools:text="数量：2100"
         android:textColor="@color/font_gray"
         android:textSize="15sp" />
 

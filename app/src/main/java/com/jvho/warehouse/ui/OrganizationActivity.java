@@ -137,7 +137,7 @@ public class OrganizationActivity extends BaseActivity {
             public void onItemClick(View view, int position) {
                 Organization organization = adapter.getDataList().get(position);
                 if (null != organization) {
-                    GoodsManageActivity.gotoGoodsManageActivity(OrganizationActivity.this, organization.getObjectId());
+                    GoodsManageActivity.gotoGoodsManageActivity(OrganizationActivity.this, organization.getName());
                 }
             }
         });

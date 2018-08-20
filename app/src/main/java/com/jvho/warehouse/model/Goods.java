@@ -32,7 +32,7 @@ public class Goods extends BmobObject {
     }
 
     private String name;
-    private String organization;    //机构ID
+    private String organization;    //机构名
     private Integer status;
 
 }

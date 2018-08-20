@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/selector_white"
     android:orientation="horizontal"
     android:paddingBottom="10dp"
@@ -16,7 +17,7 @@
         android:layout_gravity="center_vertical"
         android:ellipsize="end"
         android:maxLines="1"
-        android:text="旺角仓库"
+        tools:text="旺角仓库"
         android:textColor="@color/font_gray"
         android:textSize="15sp" />
 

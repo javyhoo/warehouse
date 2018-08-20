@@ -31,8 +31,27 @@ public class Record extends BmobObject {
         this.amount = amount;
     }
 
-    private String user;    // 账户ID
-    private String goods;   // 货物ID
+    public String getWarehouse() {
+        return warehouse;
+    }
+
+    public void setWarehouse(String warehouse) {
+        this.warehouse = warehouse;
+    }
+
+    public String getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(String organization) {
+        this.organization = organization;
+    }
+
+    private String warehouse;    // 仓库名
+    private String user;    // 账户名
+    private String organization;    // 机构名
+    private String goods;   // 货物名
     private Integer amount; // 出入货数量，负数为出货；正数为入货
+
 
 }

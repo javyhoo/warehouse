@@ -23,8 +23,8 @@ import com.jvho.core.navigator.NavigationView;
 import com.jvho.warehouse.R;
 import com.jvho.warehouse.ui.fragment.GoodsFragment;
 import com.jvho.warehouse.ui.fragment.ManageFragment;
+import com.jvho.warehouse.ui.fragment.MyFragment;
 import com.jvho.warehouse.ui.fragment.RecordsFragment;
-import com.jvho.warehouse.ui.fragment.TabFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,11 +81,8 @@ public class HomeActivity extends BaseActivity implements PopupMenu.OnMenuItemCl
         mFragmentList.add(manageFragment);
 //        }
 
-        TabFragment meFragment = new TabFragment();
-        Bundle bundle4 = new Bundle();
-        bundle4.putString(TabFragment.CONTENT, "我的");
-        meFragment.setArguments(bundle4);
-        mFragmentList.add(meFragment);
+        MyFragment myFragment = new MyFragment();
+        mFragmentList.add(myFragment);
 
         changeFragment(0); //默认显示第一页
         changeNavigation(0);

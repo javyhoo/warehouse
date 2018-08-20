@@ -47,11 +47,11 @@ public class GoodsManageActivity extends BaseActivity {
 
     private GoodsManageAdapter adapter;
     private LRecyclerViewAdapter lAdapter;
-    private String orgId;
+    private String orgName;
 
-    public static void gotoGoodsManageActivity(Context context, String orgId) {
+    public static void gotoGoodsManageActivity(Context context, String orgName) {
         Intent intent = new Intent(context, GoodsManageActivity.class);
-        intent.putExtra(TAG_ORG_ID, orgId);
+        intent.putExtra(TAG_ORG_ID, orgName);
         context.startActivity(intent);
     }
 
@@ -64,7 +64,7 @@ public class GoodsManageActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        orgId = getIntent().getStringExtra(TAG_ORG_ID);
+        orgName = getIntent().getStringExtra(TAG_ORG_ID);
 
         setNavigation();
         setListView();
@@ -106,7 +106,7 @@ public class GoodsManageActivity extends BaseActivity {
     private void saveGoods(final String name) {
         Goods goods = new Goods();
         goods.setName(name);
-        goods.setOrganization(orgId);
+        goods.setOrganization(orgName);
         goods.setStatus(1);
         goods.save(new SaveListener<String>() {
             @Override
@@ -126,6 +126,7 @@ public class GoodsManageActivity extends BaseActivity {
     private void queryData() {
         final BmobQuery<Goods> query = new BmobQuery<>();
         query.addWhereEqualTo("status", 1);
+        query.addWhereEqualTo("organization", orgName);
         query.order("name");
         query.findObjects(new FindListener<Goods>() {
             @Override

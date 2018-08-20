@@ -25,6 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 
@@ -58,6 +59,12 @@ public class RecordsFragment extends BaseFragment {
         super.onDestroy();
 
         unbinder.unbind();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        listView.refresh();
     }
 
     private void setListView() {
@@ -95,7 +102,9 @@ public class RecordsFragment extends BaseFragment {
     }
 
     private void queryData() {
+        BmobUser user = BmobUser.getCurrentUser();
         final BmobQuery<Record> query = new BmobQuery<>();
+        query.addWhereEqualTo("user", user.getUsername());
         query.order("-createdAt");
         query.findObjects(new FindListener<Record>() {
             @Override

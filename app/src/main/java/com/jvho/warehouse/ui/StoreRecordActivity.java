@@ -47,9 +47,7 @@ public class StoreRecordActivity extends BaseActivity {
     private String title;
     private List<String> listOrg = new ArrayList<>();
     private List<String> listGoods = new ArrayList<>();
-    private List<Goods> goodses = new ArrayList<>();
-    private List<Organization> organizations = new ArrayList<>();
-    private String org, goods, selectedGoodsId;
+    private String orgName, goods;
     private int count;
 
     @BindView(R.id.store_record_org)
@@ -102,12 +100,12 @@ public class StoreRecordActivity extends BaseActivity {
                 new ToastUtil().showTipToast(this, "数量要大于0", null);
             } else {
                 _User userInfo = BmobUser.getCurrentUser(_User.class);
-                final String userId = userInfo.getObjectId();
-                final String curWarehouseId = userInfo.getWarehouse();
+                final String userName = userInfo.getUsername();
+                final String curWarehouseName = userInfo.getWarehouse();
 
                 BmobQuery<WarehouseGoods> query = new BmobQuery<>();
-                query.addWhereEqualTo("warehouse", curWarehouseId);
-                query.addWhereEqualTo("goods", selectedGoodsId);
+                query.addWhereEqualTo("warehouse", curWarehouseName);
+                query.addWhereEqualTo("goods", goods);
                 query.addWhereEqualTo("status", 1);
                 query.findObjects(new FindListener<WarehouseGoods>() {
                     @Override
@@ -131,7 +129,7 @@ public class StoreRecordActivity extends BaseActivity {
 
                             new SweetAlertDialog.Builder(StoreRecordActivity.this)
                                     .setTitle(title)
-                                    .setMessage(title + org + "的" + goods + "一共" + count + "件")
+                                    .setMessage(title + orgName + "的" + goods + "一共" + count + "件")
                                     .setCancelable(true)
                                     .setPositiveButton("确定", new SweetAlertDialog.OnDialogClickListener() {
                                         @Override
@@ -140,7 +138,7 @@ public class StoreRecordActivity extends BaseActivity {
                                                 @Override
                                                 public void done(BmobException e) {
                                                     if (e == null) {
-                                                        saveWarehouseGoods(userId);
+                                                        saveWarehouseGoods(curWarehouseName, userName);
                                                     } else {
                                                         new ToastUtil().showTipToast(StoreRecordActivity.this, "网络错误！" + e.toString(), null);
                                                     }
@@ -151,21 +149,21 @@ public class StoreRecordActivity extends BaseActivity {
                         } else {
                             new SweetAlertDialog.Builder(StoreRecordActivity.this)
                                     .setTitle(title)
-                                    .setMessage(title + org + "的" + goods + "一共" + count + "件")
+                                    .setMessage(title + orgName + "的" + goods + "一共" + count + "件")
                                     .setCancelable(true)
                                     .setPositiveButton("确定", new SweetAlertDialog.OnDialogClickListener() {
                                         @Override
                                         public void onClick(Dialog dialog, int which, @Nullable String inputMsg) {
                                             WarehouseGoods warehouseGoods = new WarehouseGoods();
                                             warehouseGoods.setStatus(1);
-                                            warehouseGoods.setGoods(selectedGoodsId);
-                                            warehouseGoods.setWarehouse(curWarehouseId);
+                                            warehouseGoods.setGoods(goods);
+                                            warehouseGoods.setWarehouse(curWarehouseName);
                                             warehouseGoods.setAmount(count);
                                             warehouseGoods.save(new SaveListener<String>() {
                                                 @Override
                                                 public void done(String s, BmobException e) {
                                                     if (null == e) {
-                                                        saveWarehouseGoods(userId);
+                                                        saveWarehouseGoods(curWarehouseName, userName);
                                                     } else {
                                                         new ToastUtil().showTipToast(StoreRecordActivity.this, "网络错误！" + e.toString(), null);
                                                     }
@@ -182,12 +180,14 @@ public class StoreRecordActivity extends BaseActivity {
         }
     }
 
-    private void saveWarehouseGoods(String userId) {
+    private void saveWarehouseGoods(String warehouse, String userName) {
         Integer amount = "出货".equals(title) ? -count : count;
 
         Record record = new Record();
-        record.setUser(userId);
-        record.setGoods(selectedGoodsId);
+        record.setWarehouse(warehouse);
+        record.setUser(userName);
+        record.setOrganization(orgName);
+        record.setGoods(goods);
         record.setAmount(amount);
         record.save(new SaveListener<String>() {
             @Override
@@ -226,9 +226,7 @@ public class StoreRecordActivity extends BaseActivity {
             public void done(List<Organization> list, BmobException e) {
                 if (e == null) {
                     listOrg.clear();
-                    organizations.clear();
 
-                    organizations.addAll(list);
                     for (Organization item : list) {
                         listOrg.add(item.getName());
                     }
@@ -246,10 +244,10 @@ public class StoreRecordActivity extends BaseActivity {
         });
     }
 
-    private void setGoodsSpinner(String orgId) {
+    private void setGoodsSpinner(String orgName) {
         BmobQuery<Goods> query = new BmobQuery<>();
         query.addWhereEqualTo("status", 1);
-        query.addWhereEqualTo("organization", orgId);
+        query.addWhereEqualTo("organization", orgName);
         query.order("name");
         query.findObjects(new FindListener<Goods>() {
             @Override
@@ -259,9 +257,7 @@ public class StoreRecordActivity extends BaseActivity {
 
                 if (e == null) {
                     listGoods.clear();
-                    goodses.clear();
 
-                    goodses.addAll(list);
                     for (Goods item : list) {
                         listGoods.add(item.getName());
                     }
@@ -282,9 +278,8 @@ public class StoreRecordActivity extends BaseActivity {
     class OrgSpinnerSelectedListener implements AdapterView.OnItemSelectedListener {
 
         public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-            org = listOrg.get(arg2);
-            Organization organization = organizations.get(arg2);
-            setGoodsSpinner(organization.getObjectId());
+            orgName = listOrg.get(arg2);
+            setGoodsSpinner(orgName);
         }
 
         public void onNothingSelected(AdapterView<?> arg0) {
@@ -295,7 +290,6 @@ public class StoreRecordActivity extends BaseActivity {
 
         public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
             goods = listGoods.get(arg2);
-            selectedGoodsId = goodses.get(arg2).getObjectId();
         }
 
         public void onNothingSelected(AdapterView<?> arg0) {

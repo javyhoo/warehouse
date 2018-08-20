@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="40dp"
     android:background="@drawable/bg_half_white_rd"
@@ -20,14 +21,14 @@
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="10dp"
-        android:imeOptions="actionNext"
         android:background="@null"
-        android:hint="请输入手机号"
+        android:imeOptions="actionNext"
         android:inputType="textPassword"
         android:saveEnabled="true"
         android:singleLine="true"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
-        android:textSize="15sp" />
+        android:textSize="15sp"
+        tool:hint="请输入手机号" />
 
 </LinearLayout>
