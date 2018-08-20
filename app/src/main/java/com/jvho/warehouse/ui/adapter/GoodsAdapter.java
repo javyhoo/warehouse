@@ -8,41 +8,41 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import com.jvho.warehouse.R;
-import com.jvho.warehouse.model.Series;
-import com.jvho.warehouse.model.Warehouse;
+import com.jvho.warehouse.model.Goods;
+import com.jvho.warehouse.model.WarehouseGoods;
 
 import java.util.List;
 
 public class GoodsAdapter extends BaseExpandableListAdapter {
 
-    private List<Series> seriesList;
-    private List<List<Warehouse>> warehouseList;
+    private List<Goods> goodses;
+    private List<List<WarehouseGoods>> warehouses;
     private Context context;
 
-    public GoodsAdapter(Context context, List<Series> seriesList, List<List<Warehouse>> warehouseList) {
+    public GoodsAdapter(Context context, List<Goods> goodses, List<List<WarehouseGoods>> warehouses) {
         this.context = context;
-        this.seriesList = seriesList;
-        this.warehouseList = warehouseList;
+        this.goodses = goodses;
+        this.warehouses = warehouses;
     }
 
     @Override
     public int getGroupCount() {
-        return this.seriesList.size();
+        return this.goodses.size();
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return this.warehouseList.size();
+        return this.warehouses.size();
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return this.seriesList.get(groupPosition);
+        return this.goodses.get(groupPosition);
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return this.warehouseList.get(groupPosition).get(childPosition);
+        return this.warehouses.get(groupPosition).get(childPosition);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class GoodsAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         SeriesViewHolder seriesViewHolder;
 
-        if (convertView == null){
+        if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_goods, parent, false);
             seriesViewHolder = new SeriesViewHolder();
             seriesViewHolder.tvName = convertView.findViewById(R.id.tv_goods_name);
@@ -74,8 +74,10 @@ public class GoodsAdapter extends BaseExpandableListAdapter {
             seriesViewHolder = (SeriesViewHolder) convertView.getTag();
         }
 
-        seriesViewHolder.tvName.setText(seriesList.get(groupPosition).getName());
+        if (goodses.size() > 0) {
+            seriesViewHolder.tvName.setText(goodses.get(groupPosition).getName());
 //        seriesViewHolder.tvAmount.setVisibility(View.GONE);
+        }
 
         return convertView;
     }
@@ -84,19 +86,21 @@ public class GoodsAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         SeriesViewHolder seriesViewHolder;
 
-        if (convertView == null){
+        if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_goods, parent, false);
             seriesViewHolder = new SeriesViewHolder();
             seriesViewHolder.tvName = convertView.findViewById(R.id.tv_goods_name);
             seriesViewHolder.tvAmount = convertView.findViewById(R.id.tv_goods_amount);
-            convertView.setBackgroundColor(context.getResources().getColor(R.color.tab_normal_color));
+            convertView.setBackgroundColor(context.getResources().getColor(R.color.list_line));
             convertView.setTag(seriesViewHolder);
         } else {
             seriesViewHolder = (SeriesViewHolder) convertView.getTag();
         }
 
-        seriesViewHolder.tvName.setText(warehouseList.get(groupPosition).get(childPosition).getName());
-//        seriesViewHolder.tvAmount.setText("数量：" + warehouseList.get(groupPosition).get(childPosition).getAmount().toString());
+        if (warehouses.size() > 0 && (warehouses.get(groupPosition)).size() > 0) {
+            seriesViewHolder.tvName.setText(warehouses.get(groupPosition).get(childPosition).getGoods());
+            seriesViewHolder.tvAmount.setText("数量：" + warehouses.get(groupPosition).get(childPosition).getAmount().toString());
+        }
 
         return convertView;
     }
@@ -106,13 +110,13 @@ public class GoodsAdapter extends BaseExpandableListAdapter {
         return false;
     }
 
-    public void refresh(List<Series> seriesList, List<List<Warehouse>> warehouseList){
-        this.seriesList = seriesList;
-        this.warehouseList = warehouseList;
+    public void refresh(List<Goods> goodses, List<List<WarehouseGoods>> warehouses) {
+        this.goodses = goodses;
+        this.warehouses = warehouses;
         notifyDataSetChanged();
     }
 
-    class SeriesViewHolder{
+    class SeriesViewHolder {
         TextView tvName;
         TextView tvAmount;
     }

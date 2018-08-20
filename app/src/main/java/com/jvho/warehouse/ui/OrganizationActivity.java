@@ -17,7 +17,7 @@ import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.jvho.core.base.BaseActivity;
 import com.jvho.warehouse.R;
 import com.jvho.warehouse.model.Organization;
-import com.jvho.warehouse.ui.adapter.OrgAdapter;
+import com.jvho.warehouse.ui.adapter.OrganizationAdapter;
 
 import java.util.List;
 
@@ -39,7 +39,7 @@ public class OrganizationActivity extends BaseActivity {
 //    EmptyView emptyView;
 
     private String title;
-    private OrgAdapter adapter;
+    private OrganizationAdapter adapter;
     private LRecyclerViewAdapter lAdapter;
 
     public static void gotoOrganizationActivity(Context context, String title) {
@@ -97,7 +97,7 @@ public class OrganizationActivity extends BaseActivity {
     }
 
     private void setListView() {
-        adapter = new OrgAdapter(this);
+        adapter = new OrganizationAdapter(this);
         queryData();
 
         lAdapter = new LRecyclerViewAdapter(adapter);
