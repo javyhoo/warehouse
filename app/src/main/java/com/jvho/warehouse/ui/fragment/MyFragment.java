@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.jvho.core.base.BaseFragment;
 import com.jvho.warehouse.R;
 import com.jvho.warehouse.model._User;
+import com.jvho.warehouse.ui.FeedbackActivity;
 import com.jvho.warehouse.ui.widget.LabelView;
 
 import butterknife.BindView;
@@ -102,6 +103,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
                 // change pwd
                 break;
             case R.id.lv_feedback:
+                FeedbackActivity.gotoFeedbackActivity(getContext());
                 break;
             case R.id.lv_about:
                 break;

@@ -32,7 +32,16 @@ public class Feedback extends BmobObject {
         this.issue = issue;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     private String user;
     private String title;
     private String issue;
+    private Integer status;
 }
