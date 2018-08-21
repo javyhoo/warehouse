@@ -38,9 +38,8 @@ public class GoodsFragment extends BaseFragment {
     SearchView orgSearch;
     @BindView(R.id.list_organization)
     LRecyclerView listView;
-//    @BindView(R.id.empty_view)
-//    EmptyView emptyView;
 
+    private View emptyView;
     private Unbinder unbinder;
     private OrganizationAdapter adapter;
 
@@ -52,6 +51,14 @@ public class GoodsFragment extends BaseFragment {
         if (rootview == null) {
             rootview = inflater.inflate(R.layout.fragment_goods, container, false);
             unbinder = ButterKnife.bind(this, rootview);
+
+            emptyView = rootview.findViewById(R.id.empty_view);
+            emptyView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listView.refresh();
+                }
+            });
 
             orgSearch.setQueryHint("请输入您要搜索的机构名称");
             setListView();
@@ -125,12 +132,12 @@ public class GoodsFragment extends BaseFragment {
 
                 if (null == e || list.size() > 0) {
                     adapter.setDataList(list);
-//                    emptyView.setVisibility(View.GONE);
-//                    listView.setVisibility(View.VISIBLE);
+                    emptyView.setVisibility(View.GONE);
+                    listView.setVisibility(View.VISIBLE);
                 } else {
                     Toast.makeText(getContext(), "机构表查询失败", Toast.LENGTH_SHORT).show();
-//                    emptyView.setVisibility(View.VISIBLE);
-//                    listView.setVisibility(View.GONE);
+                    emptyView.setVisibility(View.VISIBLE);
+                    listView.setVisibility(View.GONE);
                 }
             }
         });

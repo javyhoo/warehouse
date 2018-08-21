@@ -42,9 +42,8 @@ public class OrgManageActivity extends BaseActivity {
 
     @BindView(R.id.list_manage)
     LRecyclerView listView;
-//    @BindView(R.id.empty_view)
-//    EmptyView emptyView;
 
+    private View emptyView;
     private String title;
     private OrgManageAdapter adapter;
     private LRecyclerViewAdapter lAdapter;
@@ -64,17 +63,18 @@ public class OrgManageActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        emptyView = findViewById(R.id.empty_view);
+        emptyView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listView.refresh();
+            }
+        });
+
         title = getIntent().getStringExtra(TAG_MANAGE_TITLE);
 
         setNavigation();
         setListView();
-
-//        emptyView.setRefreshListener(new EmptyView.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                listView.refresh();
-//            }
-//        });
     }
 
     private void setNavigation() {
@@ -133,11 +133,11 @@ public class OrgManageActivity extends BaseActivity {
 
                 if (null == e || list.size() > 0) {
                     adapter.setDataList(list);
-//                    emptyView.setVisibility(View.GONE);
-//                    listView.setVisibility(View.VISIBLE);
+                    emptyView.setVisibility(View.GONE);
+                    listView.setVisibility(View.VISIBLE);
                 } else {
-//                    emptyView.setVisibility(View.VISIBLE);
-//                    listView.setVisibility(View.GONE);
+                    emptyView.setVisibility(View.VISIBLE);
+                    listView.setVisibility(View.GONE);
                 }
             }
         });

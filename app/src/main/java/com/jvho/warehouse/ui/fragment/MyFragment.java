@@ -18,10 +18,7 @@ import com.jvho.warehouse.ui.widget.LabelView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.QueryListener;
 
 public class MyFragment extends BaseFragment implements View.OnClickListener {
 
@@ -43,6 +40,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     TextView logout;
 
     private Unbinder unbinder;
+    private _User curUser;
 
     @Nullable
     @Override
@@ -80,14 +78,8 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
 //        feedback.setValue("账户管理");
         about.setValue("V1.0.0");
 
-        BmobUser curUser = BmobUser.getCurrentUser();
-        BmobQuery<_User> query = new BmobQuery<>();
-        query.getObject(curUser.getObjectId(), new QueryListener<_User>() {
-            @Override
-            public void done(_User user, BmobException e) {
-                setUser(user);
-            }
-        });
+        curUser = BmobUser.getCurrentUser(_User.class);
+        setUser(curUser);
     }
 
     private void setUser(_User user) {
@@ -114,6 +106,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
             case R.id.lv_about:
                 break;
             case R.id.tv_logout_btn:
+                BmobUser.logOut();
                 activity.finish();
                 break;
         }

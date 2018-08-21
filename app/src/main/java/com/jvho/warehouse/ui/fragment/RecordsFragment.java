@@ -25,7 +25,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 
@@ -33,9 +32,8 @@ public class RecordsFragment extends BaseFragment {
 
     @BindView(R.id.list_record)
     LRecyclerView listView;
-//    @BindView(R.id.empty_view)
-//    EmptyView emptyView;
 
+    private View emptyView;
     private Unbinder unbinder;
     private RecordAdapter adapter;
 
@@ -47,6 +45,14 @@ public class RecordsFragment extends BaseFragment {
         if (rootview == null) {
             rootview = inflater.inflate(R.layout.fragment_records, container, false);
             unbinder = ButterKnife.bind(this, rootview);
+
+            emptyView = rootview.findViewById(R.id.empty_view);
+            emptyView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listView.refresh();
+                }
+            });
 
             setListView();
         }
@@ -98,13 +104,10 @@ public class RecordsFragment extends BaseFragment {
                 queryData();
             }
         });
-        listView.refresh();
     }
 
     private void queryData() {
-        BmobUser user = BmobUser.getCurrentUser();
         final BmobQuery<Record> query = new BmobQuery<>();
-        query.addWhereEqualTo("user", user.getUsername());
         query.order("-createdAt");
         query.findObjects(new FindListener<Record>() {
             @Override
@@ -113,11 +116,11 @@ public class RecordsFragment extends BaseFragment {
 
                 if (null == e || list.size() > 0) {
                     adapter.setDataList(list);
-//                    emptyView.setVisibility(View.GONE);
-//                    listView.setVisibility(View.VISIBLE);
+                    emptyView.setVisibility(View.GONE);
+                    listView.setVisibility(View.VISIBLE);
                 } else {
-//                    emptyView.setVisibility(View.VISIBLE);
-//                    listView.setVisibility(View.GONE);
+                    emptyView.setVisibility(View.VISIBLE);
+                    listView.setVisibility(View.GONE);
                 }
             }
         });

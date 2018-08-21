@@ -44,6 +44,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         password.getEtValue().setImeOptions(IME_ACTION_DONE);
 
         btnLogin.setOnClickListener(this);
+
+        _User user = BmobUser.getCurrentUser(_User.class);
+        if (user != null) {
+            gotoMainPage();
+        }
     }
 
     @Override
@@ -66,7 +71,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 @Override
                 public void done(_User user, BmobException e) {
                     if (null != user) {
-                        gotoMainPage(user.getAdmin());
+                        gotoMainPage();
                     } else {
                         showErrDialog(e.getMessage());
                     }
@@ -75,8 +80,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void gotoMainPage(boolean isAdmin) {
-        HomeActivity.gotoHomeActivity(this, isAdmin);
+    private void gotoMainPage() {
+        HomeActivity.gotoHomeActivity(this);
 
         this.finish();
     }

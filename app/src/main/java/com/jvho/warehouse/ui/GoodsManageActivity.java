@@ -42,11 +42,9 @@ public class GoodsManageActivity extends BaseActivity {
 
     @BindView(R.id.list_manage)
     LRecyclerView listView;
-//    @BindView(R.id.empty_view)
-//    EmptyView emptyView;
 
+    private View emptyView;
     private GoodsManageAdapter adapter;
-    private LRecyclerViewAdapter lAdapter;
     private String orgName;
 
     public static void gotoGoodsManageActivity(Context context, String orgName) {
@@ -64,17 +62,18 @@ public class GoodsManageActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        emptyView = findViewById(R.id.empty_view);
+        emptyView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listView.refresh();
+            }
+        });
+
         orgName = getIntent().getStringExtra(TAG_ORG_ID);
 
         setNavigation();
         setListView();
-
-//        emptyView.setRefreshListener(new EmptyView.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                listView.refresh();
-//            }
-//        });
     }
 
     private void setNavigation() {
@@ -135,11 +134,11 @@ public class GoodsManageActivity extends BaseActivity {
 
                 if (null == e || list.size() > 0) {
                     adapter.setDataList(list);
-//                    emptyView.setVisibility(View.GONE);
-//                    listView.setVisibility(View.VISIBLE);
+                    emptyView.setVisibility(View.GONE);
+                    listView.setVisibility(View.VISIBLE);
                 } else {
-//                    emptyView.setVisibility(View.VISIBLE);
-//                    listView.setVisibility(View.GONE);
+                    emptyView.setVisibility(View.VISIBLE);
+                    listView.setVisibility(View.GONE);
                 }
             }
         });
@@ -149,7 +148,7 @@ public class GoodsManageActivity extends BaseActivity {
         adapter = new GoodsManageAdapter(this);
         queryData();
 
-        lAdapter = new LRecyclerViewAdapter(adapter);
+        LRecyclerViewAdapter lAdapter = new LRecyclerViewAdapter(adapter);
         listView.setAdapter(lAdapter);
 
         DividerDecoration divider = new DividerDecoration.Builder(this)

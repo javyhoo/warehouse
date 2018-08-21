@@ -42,7 +42,7 @@ public class WarehouseManageActivity extends BaseActivity {
 
     private String title;
     private WarehouseAdapter adapter;
-    private LRecyclerViewAdapter lAdapter;
+    private View emptyView;
 
     @BindView(R.id.list_manage)
     LRecyclerView listView;
@@ -61,6 +61,14 @@ public class WarehouseManageActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        emptyView = findViewById(R.id.empty_view);
+        emptyView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listView.refresh();
+            }
+        });
 
         title = getIntent().getStringExtra(TAG_MANAGEWAREHOUSETITLE);
 
@@ -124,11 +132,11 @@ public class WarehouseManageActivity extends BaseActivity {
 
                 if (null == e || list.size() > 0) {
                     adapter.setDataList(list);
-//                    emptyView.setVisibility(View.GONE);
-//                    listView.setVisibility(View.VISIBLE);
+                    emptyView.setVisibility(View.GONE);
+                    listView.setVisibility(View.VISIBLE);
                 } else {
-//                    emptyView.setVisibility(View.VISIBLE);
-//                    listView.setVisibility(View.GONE);
+                    emptyView.setVisibility(View.VISIBLE);
+                    listView.setVisibility(View.GONE);
                 }
             }
         });
@@ -138,7 +146,7 @@ public class WarehouseManageActivity extends BaseActivity {
         adapter = new WarehouseAdapter(this);
         queryData();
 
-        lAdapter = new LRecyclerViewAdapter(adapter);
+        LRecyclerViewAdapter lAdapter = new LRecyclerViewAdapter(adapter);
         listView.setAdapter(lAdapter);
 
         DividerDecoration divider = new DividerDecoration.Builder(this)

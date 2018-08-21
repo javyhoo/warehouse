@@ -33,11 +33,11 @@ public class RecordAdapter extends ListBaseAdapter<Record> {
         String orgName = record.getOrganization();
         String goodsName = record.getGoods();
         Integer amount = record.getAmount();
-        String strAmount = amount < 0 ? "共 " + Math.abs(amount) + " 件取出自" : "共 " + amount + " 件存入";
+        String strAmount = amount < 0 ? " 共 " + Math.abs(amount) + " 件取出自 " : " 共 " + amount + " 件存入 ";
         String time = record.getCreatedAt();
 
         TextView tvRecord = holder.getView(R.id.tv_record);
-        tvRecord.setText(time + "\n" + userName + "把" + orgName + "的" + goodsName + strAmount + warehouse);
+        tvRecord.setText(time + "\n" + userName + " 把 " + orgName + " 的 " + goodsName + strAmount + warehouse);
 
     }
 
